@@ -1,15 +1,15 @@
 #!/usr/bin/env ruby
 
-# lcl_e -- LibComponentLogging, embedded
+# lcl_embed -- LibComponentLogging, embedded
 
 require 'FileUtils'
 
 @usage=<<END
-usage: lcl_e <project-name> <symbol-prefix> <folder>
+usage: lcl_embed <project-name> <symbol-prefix> <folder>
 END
 
 def print_usage_and_exit(message = '')
-  puts "lcl_e: " + message if message != ''
+  puts "lcl_embed: " + message if message != ''
   puts @usage
   exit
 end
