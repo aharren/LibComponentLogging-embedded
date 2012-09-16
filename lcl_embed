@@ -39,7 +39,7 @@ end
 
 def process_symbol(text, project_name, symbol_prefix)
   if text.end_with?('.h') or text.end_with?('.m')
-    return text.sub('.', "_" + project_name + '.')
+    return text.sub('.', "_" + symbol_prefix + '.')
   else
     text = text.gsub('lcl_', symbol_prefix + 'lcl' + '_')
     text = text.gsub('LCL_', symbol_prefix + 'LCL' + '_')
