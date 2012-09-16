@@ -43,6 +43,7 @@ def process_symbol(text, project_name, symbol_prefix)
   else
     text = text.gsub('lcl_', symbol_prefix + 'lcl' + '_')
     text = text.gsub('LCL_', symbol_prefix + 'LCL' + '_')
+    text = text.sub(/LCL[A-Z][a-zA-z]+/) { |s| symbol_prefix + s }
     return text
   end
 end
@@ -55,7 +56,7 @@ def process_file_name(file, project_name, symbol_prefix)
     puts 'D ' + file
     FileUtils.rm(file)
   else
-    newname = name.sub(/(lcl|LCL)[a-zA-Z_]*(\.h|\.m|_)/) {|s| process_symbol(s, project_name, symbol_prefix)}
+    newname = name.sub(/(lcl|LCL)[a-zA-Z_]*(\.h|\.m)/) {|s| process_symbol(s, project_name, symbol_prefix)}
     puts 'R ' + file + ' -> ' + newname
     FileUtils.mv(file, folder + '/' + newname)
   end
@@ -64,7 +65,7 @@ end
 def process_file_content(file, project_name, symbol_prefix)
   content = File.read(file)
 
-  newcontent = content.gsub(/(lcl|LCL)[a-zA-Z_]*(\.h|\.m|_)/) {|s| process_symbol(s, project_name, symbol_prefix)}
+  newcontent = content.gsub(/(lcl|LCL)[a-zA-Z_]*(\.h|\.m|)/) {|s| process_symbol(s, project_name, symbol_prefix)}
   newcontent = newcontent.gsub(' -- LibComponentLogging', ' -- LibComponentLogging, embedded, ' + project_name + '/' + symbol_prefix)
   return if content == newcontent
 
