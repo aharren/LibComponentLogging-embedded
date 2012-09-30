@@ -85,12 +85,12 @@ def main(args)
 
   Dir.chdir(folder) do
     Dir.glob('**/{lcl,LCL}*{.h,.m}').each do|file|
+      next if File.dirname(file).start_with?('Build')
       process_file_name(file, project_name, symbol_prefix)
     end
     Dir.glob('**/*{.h,.m,.pbxproj}').each do|file|
-      if File.file?(file) and !File.dirname(file).start_with?('Build')
-        process_file_content(file, project_name, symbol_prefix) if File.file? file
-      end
+      next if File.dirname(file).start_with?('Build')
+      process_file_content(file, project_name, symbol_prefix) if File.file? file
     end
   end
   exit
