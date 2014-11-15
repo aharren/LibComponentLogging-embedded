@@ -38,7 +38,7 @@ def print_usage_and_exit(message = '')
 end
 
 def process_symbol(text, project_name, symbol_prefix)
-  if text.end_with?('.h') or text.end_with?('.m')
+  if text.end_with?('.h') or text.end_with?('.m') or text.end_with?('.c')
     return text.sub('.', "_" + symbol_prefix + '.')
   else
     text = text.gsub('lcl_', symbol_prefix + 'lcl' + '_')
@@ -84,11 +84,11 @@ def main(args)
   print_usage_and_exit('missing argument <folder>') if !folder
 
   Dir.chdir(folder) do
-    Dir.glob('**/{lcl,LCL}*{.h,.m}').each do|file|
+    Dir.glob('**/{lcl,LCL}*{.h,.m,.c}').each do|file|
       next if File.dirname(file).start_with?('Build')
       process_file_name(file, project_name, symbol_prefix)
     end
-    Dir.glob('**/*{.h,.m,.pbxproj}').each do|file|
+    Dir.glob('**/*{.h,.m,.c,.pbxproj}').each do|file|
       next if File.dirname(file).start_with?('Build')
       process_file_content(file, project_name, symbol_prefix) if File.file? file
     end
